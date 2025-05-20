@@ -1,0 +1,155 @@
+{
+  "town": "Javea",
+  "markers": [
+    {
+      "title": "Parroquia de San Bartolomé",
+      "description": "La iglesia de San Bartolomé, situada en la plaza de la Iglesia de Jávea es un edificio religioso fortificado.",
+      "coordinates": {
+        "lat": 38.789222916452054,
+        "lng": 0.16345381736755374
+      },
+      "questions": [
+        {
+          "question": "¿En que siglo fue construido?",
+          "options": [
+            "XVI",
+            "XIX",
+            "IV",
+            "XVI"
+          ],
+          "correct": 3
+        },
+        {
+          "question": "¿Quien dirigió las obras?",
+          "options": [
+            "Domingo Urtiaga",
+            "Domingo Fernandez",
+            "Fernando Rodrigo",
+            "Andres Nuñez"
+          ],
+          "correct": 0
+        },
+        {
+          "question": "¿Que estilo tiene el edificio?",
+          "options": [
+            "Barroco",
+            "Gótico valenciano",
+            "Gótico Ibero",
+            "Neo clásico"
+          ],
+          "correct": 1
+        },
+        {
+          "question": "¿Desde que año se considera un Bien de Interés Cultural?",
+          "options": [
+            "1934",
+            "1980",
+            "2011",
+            "1931"
+          ],
+          "correct": 3
+        }
+      ]
+    },
+    {
+      "title": "Museo Arqueológico y Etnográfico Soler Blasco",
+      "description": "El Museo Arqueológico y Etnográfico Soler Blasco, también conocido como Museo Soler Blasco o Museo de Xàbia, es un museo arqueológico y etnográfico municipal situado en el municipio español de Jávea. Está ubicado en la casa-palacio de Antoni Banyuls, un edificio del centro histórico de la ciudad. ",
+      "coordinates": {
+        "lat": 38.788566445119656,
+        "lng": 0.1628851890563965
+      },
+      "questions": [
+        {
+          "question": "¿En que año fue adquirido el edificio?",
+          "options": [
+            "1877",
+            "1977",
+            "1988",
+            "1803"
+          ],
+          "correct": 1
+        },
+        {
+          "question": "¿Desde que año este edificio cuenta con un arqueólogo propio?",
+          "options": [
+            "1985",
+            "2002",
+            "2008",
+            "1993"
+          ],
+          "correct": 0
+        },
+        {
+          "question": "¿En que año se amplio el museo?",
+          "options": [
+            "2008",
+            "2009",
+            "2005",
+            "2010"
+          ],
+          "correct": 0
+        },
+        {
+          "question": "¿Quien era el dueño original de edificio?",
+          "options": [
+            "Antonio Ortiz",
+            "Antoni Banyuls",
+            "Gabriel Ifach",
+            "Antonio Bolufer"
+          ],
+          "correct": 1
+        }
+      ]
+    },
+    {
+      "title": "Iglesia de Nuestra Señora de Loreto",
+      "description": "La Iglesia Nuestra Señora de Loreto, conocida como la Parroquia del Mar, se encuentra en el barrio marinero de Duanes de la Mar. ",
+      "coordinates": {
+        "lat": 38.795870916075756,
+        "lng": 0.1821863651275635
+      },
+      "questions": [
+        {
+          "question": "¿Que estilo sigue el edificio?",
+          "options": [
+            "Vanguardista",
+            "Neo clasico",
+            "Gótico valenciano",
+            "Barroco"
+          ],
+          "correct": 0
+        },
+        {
+          "question": "¿En que siglo se empezó a construir?",
+          "options": [
+            "XIX",
+            "XX",
+            "XXI",
+            "XVIII"
+          ],
+          "correct": 1
+        },
+        {
+          "question": "¿Qué edificio se encontraba antes en esta localización?",
+          "options": [
+            "Una capilla dedicada a la Virgen de Loreto",
+            "Una escuela",
+            "Una capilla dedicada al Sagrado Corazón de Jesús",
+            "Todas las anteriores"
+          ],
+          "correct": 3
+        },
+        {
+          "question": "¿Quién fue el arquitecto de la iglesia?",
+          "options": [
+            "Fernando Bogamarí Ernesto",
+            "Fernando García Ordóñez",
+            "Gaudí",
+            "Armando de la Orden"
+          ],
+          "correct": 1
+        }
+      ]
+    }
+  ]
+}

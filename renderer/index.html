@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js" defer></script>
+  <script src="app.js" defer></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <link rel="stylesheet" href="style.css" />
+  <title>ProyectoOpenStreetView</title>
+</head>
+<body>
+  <h1>Editor de Marcadores</h1>
+  <div id="map"></div>
+  <p id="coords">Haz clic en el mapa para seleccionar una ubicación.</p>
+  <form id="markerForm">
+    <h2>Datos del Marcador</h2>
+    <button type="button" id="loadJson">📂 Cargar archivo JSON existente</button><br><br>
+    <label>Nombre del pueblo (para el archivo JSON):<br>
+        <input type="text" id="townName" placeholder="Ej. javea" required>
+    </label>
+    <br><br>  
+    <label>Título:<br><input type="text" id="title" required></label><br><br>
+    <label>Descripción:<br><textarea id="description" required></textarea></label><br><br>
+  
+    <h3>Preguntas tipo test</h3>
+  
+    <!-- Pregunta 1 -->
+    <label>Pregunta 1:<br><input type="text" id="q1" required></label><br>
+    <label>Opciones:<br>
+      <input type="text" id="q1a" placeholder="Opción A" required>
+      <input type="text" id="q1b" placeholder="Opción B" required>
+      <input type="text" id="q1c" placeholder="Opción C" required>
+      <input type="text" id="q1d" placeholder="Opción D" required>
+      <select id="q1correct">
+        <option value="0">A</option>
+        <option value="1">B</option>
+        <option value="2">C</option>
+        <option value="3">D</option>
+      </select>
+    </label><br><br>
+
+    <!-- Pregunta 2 -->
+    <label>Pregunta 2:<br><input type="text" id="q2" required></label><br>
+    <label>Opciones:<br>
+      <input type="text" id="q2a" placeholder="Opción A" required>
+      <input type="text" id="q2b" placeholder="Opción B" required>
+      <input type="text" id="q2c" placeholder="Opción C" required>
+      <input type="text" id="q2d" placeholder="Opción D" required>
+      <select id="q2correct">
+        <option value="0">A</option>
+        <option value="1">B</option>
+        <option value="2">C</option>
+        <option value="3">D</option>
+      </select>
+    </label><br><br>
+
+    <!-- Pregunta 3 -->
+    <label>Pregunta 3:<br><input type="text" id="q3" required></label><br>
+    <label>Opciones:<br>
+      <input type="text" id="q3a" placeholder="Opción A" required>
+      <input type="text" id="q3b" placeholder="Opción B" required>
+      <input type="text" id="q3c" placeholder="Opción C" required>
+      <input type="text" id="q3d" placeholder="Opción D" required>
+      <select id="q3correct">
+        <option value="0">A</option>
+        <option value="1">B</option>
+        <option value="2">C</option>
+        <option value="3">D</option>
+      </select>
+    </label><br><br>
+
+    <!-- Pregunta 4 -->
+    <label>Pregunta 4:<br><input type="text" id="q4" required></label><br>
+    <label>Opciones:<br>
+      <input type="text" id="q4a" placeholder="Opción A" required>
+      <input type="text" id="q4b" placeholder="Opción B" required>
+      <input type="text" id="q4c" placeholder="Opción C" required>
+      <input type="text" id="q4d" placeholder="Opción D" required>
+      <select id="q4correct">
+        <option value="0">A</option>
+        <option value="1">B</option>
+        <option value="2">C</option>
+        <option value="3">D</option>
+      </select>
+    </label><br><br>
+  
+    <button type="submit" id="marcador">Guardar marcador</button>
+    <button type="submit" id="saveJson">Guardar archivo JSON</button>
+  </form>
+  <h2>Marcadores creados</h2>
+  <ul id="markerList"></ul>
+    
+  
+</body>
+</html>

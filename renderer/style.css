@@ -1,0 +1,54 @@
+body {
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+  
+  h1 {
+    padding: 1rem;
+  }
+  
+  #map {
+    height: 500px;
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+  
+  #coords {
+    padding: 1rem;
+  }
+
+  form {
+    padding: 1rem;
+    background: #f9f9f9;
+    border-top: 1px solid #ccc;
+  }
+  
+  input, textarea, select {
+    margin-top: 5px;
+    margin-bottom: 10px;
+    width: 100%;
+    padding: 5px;
+  }
+
+  #markerList {
+    list-style: none;
+    padding: 0 1rem;
+  }
+  
+  #markerList li {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  #markerList button {
+    padding: 4px 10px;
+    background-color: #d9534f;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+  }
