@@ -2,6 +2,8 @@
 const fs = require('fs');
 const path = require('path');
 const { dialog } = require('@electron/remote');
+
+let mapMarkers = [];
 let lastMarker = null;
 let markers = [];
 let editIndex = null;
@@ -11,54 +13,77 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   attribution: '&copy; OpenStreetMap contributors'
 }).addTo(map);
 
+// 👇 ICONOS DEFINIDOS
+const iconoNormal = L.icon({
+  iconUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png',
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+});
+const iconoEdicion = L.icon({
+  iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-orange.png',
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+});
+
 map.on('click', (e) => {
   const { lat, lng } = e.latlng;
   if (lastMarker) map.removeLayer(lastMarker);
-  lastMarker = L.marker([lat, lng]).addTo(map);
-  document.getElementById('coords').textContent = `Coordenadas seleccionadas: Lat: ${lat.toFixed(5)}, Lng: ${lng.toFixed(5)}`;
+  lastMarker = L.marker([lat, lng], { icon: iconoNormal }).addTo(map);
+  document.getElementById('coords').textContent =
+    `Coordenadas seleccionadas: Lat: ${lat.toFixed(5)}, Lng: ${lng.toFixed(5)}`;
 });
 
 // Funciones
-
 function resetFormFields() {
   const form = document.getElementById('markerForm');
   form.reset();
-  document.getElementById('coords').textContent = 'Haz clic en el mapa para seleccionar una ubicación.';
+  document.getElementById('coords').textContent =
+    'Haz clic en el mapa para seleccionar una ubicación.';
   editIndex = null;
 }
 
 function updateMarkerList() {
   const list = document.getElementById('markerList');
   list.innerHTML = '';
+
+  // 1) eliminar todas las capas previas
+  mapMarkers.forEach(layer => map.removeLayer(layer));
+  mapMarkers = [];
+
+  // 2) limpiar marcador temporal
   if (lastMarker) {
     map.removeLayer(lastMarker);
     lastMarker = null;
   }
-  markers.forEach((marker, index) => {
-    //Mostrar marcador en el mapa
-    const mapMarker = L.marker([marker.coordinates.lat, marker.coordinates.lng]).addTo(map);
-    mapMarker.on('click', () => {
-      window.editMarker(index);
-    });
 
-    //Elemento en lista lateral
+  // 3) volver a crear marcadores
+  markers.forEach((marker, index) => {
+    // marcador azul por defecto
+    const mapMarker = L.marker(
+      [marker.coordinates.lat, marker.coordinates.lng],
+      { icon: iconoNormal }
+    )
+      .addTo(map)
+      .on('click', () => window.editMarker(index));
+
+    mapMarkers.push(mapMarker);
+
+    // lista lateral
     const li = document.createElement('li');
     const span = document.createElement('span');
     span.innerHTML = `<strong>${marker.title}</strong> (${marker.coordinates.lat.toFixed(5)}, ${marker.coordinates.lng.toFixed(5)})`;
 
     const btns = document.createElement('div');
-
     const editBtn = document.createElement('button');
     editBtn.textContent = '✏️ Editar';
-    editBtn.addEventListener('click', () => {
-      window.editMarker(index);
-    });
+    editBtn.addEventListener('click', () => window.editMarker(index));
 
     const deleteBtn = document.createElement('button');
     deleteBtn.textContent = '🗑️ Eliminar';
     deleteBtn.addEventListener('click', () => {
-      const confirmDelete = confirm(`¿Seguro que quieres eliminar el marcador "${marker.title}"?`);
-      if (!confirmDelete) return;
+      if (!confirm(`¿Seguro que quieres eliminar "${marker.title}"?`)) return;
       markers.splice(index, 1);
       updateMarkerList();
     });
@@ -116,12 +141,14 @@ form.addEventListener('submit', (e) => {
 });
 
 const jsonForm = document.getElementById('saveJson');
-jsonForm.addEventListener('submit', (e) => {
-  e.preventDefault();
+jsonForm.addEventListener('click', () => {
+  const townInput = document.getElementById('townName');
   const town = document.getElementById('townName').value.trim();
   const filePath = path.join(__dirname, '../json', `${town}.json`);
   if (!town) {
-    document.getElementById("townName").focus();
+    townInput.focus();
+    townInput.placeholder = '⚠️Error: Por favor, introduce un nombre';
+    townInput.style.outline = '2px solid red';
     return;
   } else {
     const jsonData = {
@@ -130,10 +157,17 @@ jsonForm.addEventListener('submit', (e) => {
     };
     fs.writeFile(filePath, JSON.stringify(jsonData, null, 2), (err) => {
       if (err) {
-        alert('Error al guardar el archivo JSON.');
+        alert('Error al guardar el archivo JSON');
         console.error(err);
       } else {
-        alert(`Archivo guardado correctamente: ${filePath}`);
+        townInput.focus();
+        townInput.placeholder = `Archivo guardado correctamente: ${filePath}`;
+        townInput.style.outline = '2px solid green';
+        townInput.value = '';
+        setTimeout(() => {
+          townInput.placeholder = '';
+          townInput.style.outline = '';
+        }, 5000);
       }
     });
   }
@@ -146,17 +180,13 @@ document.getElementById('loadJson').addEventListener('click', async () => {
     filters: [{ name: 'Archivos JSON', extensions: ['json'] }],
     properties: ['openFile']
   });
-
   if (result.canceled || result.filePaths.length === 0) return;
-
   const filePath = result.filePaths[0];
-
   fs.readFile(filePath, 'utf8', (err, data) => {
     if (err) {
       alert('Error al leer el archivo.');
       return;
     }
-
     try {
       const jsonData = JSON.parse(data);
       if (!jsonData.town || !jsonData.markers) {
@@ -174,11 +204,17 @@ document.getElementById('loadJson').addEventListener('click', async () => {
 });
 
 window.editMarker = function(index) {
+  // 👇 cambiar el icono del marcador original a naranja
+  const viejo = mapMarkers[index];
+  if (viejo) viejo.setIcon(iconoEdicion);
+
+  // limpiar lastMarker
+  if (lastMarker) map.removeLayer(lastMarker);
+
   const marker = markers[index];
   const coords = marker.coordinates;
-
-  if (lastMarker) map.removeLayer(lastMarker);
-  lastMarker = L.marker([coords.lat, coords.lng]).addTo(map);
+  // marcador temporal (azul) para edición
+  lastMarker = L.marker([coords.lat, coords.lng], { icon: iconoNormal }).addTo(map);
   map.setView([coords.lat, coords.lng], 15);
 
   document.getElementById('coords').textContent =
@@ -205,6 +241,5 @@ window.editMarker = function(index) {
   });
 
   document.getElementById('title').focus();
-
   editIndex = index;
 };
